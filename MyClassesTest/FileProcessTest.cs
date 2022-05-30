@@ -7,6 +7,20 @@ namespace MyClassesTest
     [TestClass] //attribute for the Class
     public class FileProcessTest
     {
+        protected string _GoodFileName;
+        private const string BAD_FILE_NAME = @"C:\NotExists.bad";
+        public TestContext TestContext { get; set; }
+
+        protected void SetGoodFileName()
+        {
+            _GoodFileName = TestContext.Properties["GoodFileName"].ToString();
+            if (_GoodFileName.Contains("[AppPath]"))
+            {
+                _GoodFileName = _GoodFileName.Replace("[AppPath]",
+                    Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData));
+            }
+        }
+
         [TestMethod] //attribute for each method
         public void FileNameDoesExist()
         {
@@ -15,9 +29,13 @@ namespace MyClassesTest
             FileProcess fp = new FileProcess();
             bool fromCall;
 
+            SetGoodFileName();
+
+            TestContext.WriteLine("Checking File" + _GoodFileName);
+
             //Act
 
-            fromCall = fp.FileExists(@"C:\Windows\System\Speech\xml.xsd");
+            fromCall = fp.FileExists(_GoodFileName);
 
             //Assert
 
@@ -34,9 +52,11 @@ namespace MyClassesTest
             FileProcess fp = new FileProcess();
             bool fromCall;
 
+            TestContext.WriteLine(@"Checking File " + BAD_FILE_NAME);
+
             //Act
 
-            fromCall = fp.FileExists(@"C:\Windows\System\Speech\nothing.exe");
+            fromCall = fp.FileExists(BAD_FILE_NAME);
 
             //Assert
 
@@ -48,7 +68,9 @@ namespace MyClassesTest
         public void FileNameNullorEmpty_UsingAttribute()
         {
             FileProcess fp = new FileProcess();
-            
+
+            TestContext.WriteLine("Checking for a null File");
+
             fp.FileExists("");
         }
 
@@ -59,7 +81,8 @@ namespace MyClassesTest
 
             try
             {
-                fp.FileExists("File");
+                TestContext.WriteLine("Checking for a null File");
+                fp.FileExists("");
             }
             catch (ArgumentNullException)
             {
