@@ -1,6 +1,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MyClasses;
 using System;
+using System.IO;
 
 namespace MyClassesTest
 {
@@ -31,11 +32,26 @@ namespace MyClassesTest
 
             SetGoodFileName();
 
+             //Check to make sure file name is not null or empty
+            if (!string.IsNullOrEmpty(_GoodFileName))
+            {
+                //Creating the 'Good' file
+                File.AppendAllText(_GoodFileName, "Some Text");
+            }
+
             TestContext.WriteLine("Checking File" + _GoodFileName);
+             
+            fromCall = fp.FileExists(_GoodFileName);
+
+            //Delete file
+            if (File.Exists(_GoodFileName))
+            {
+                File.Delete(_GoodFileName);
+            }
 
             //Act
 
-            fromCall = fp.FileExists(_GoodFileName);
+
 
             //Assert
 
