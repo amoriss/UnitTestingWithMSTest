@@ -3,24 +3,14 @@ using MyClasses;
 using System;
 using System.IO;
 
-namespace MyClassesTest
+namespace MyClassesTest 
 {
     [TestClass] //attribute for the Class
-    public class FileProcessTest
+    public class FileProcessTest : TestBase
     {
-        protected string _GoodFileName;
+       
         private const string BAD_FILE_NAME = @"C:\NotExists.bad";
-        public TestContext TestContext { get; set; }
-
-        protected void SetGoodFileName()
-        {
-            _GoodFileName = TestContext.Properties["GoodFileName"].ToString();
-            if (_GoodFileName.Contains("[AppPath]"))
-            {
-                _GoodFileName = _GoodFileName.Replace("[AppPath]",
-                    Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData));
-            }
-        }
+            
 
         [TestMethod] //attribute for each method
         public void FileNameDoesExist()
@@ -50,8 +40,6 @@ namespace MyClassesTest
             }
 
             //Act
-
-
 
             //Assert
 
