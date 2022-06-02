@@ -8,9 +8,21 @@ namespace MyClassesTest
     [TestClass] //attribute for the Class
     public class FileProcessTest : TestBase
     {
-       
+
         private const string BAD_FILE_NAME = @"C:\NotExists.bad";
-            
+
+        [ClassInitialize()]
+        public static void ClassInitialize(TestContext tc)
+        {
+            //TODO: Initialize for all tests in class
+            tc.WriteLine("In ClassInitialize() method");
+        }
+
+        [ClassCleanup()]
+        public static void ClassCleanup()
+        {
+            //TODO: Cleanup after all tests in class
+        }
 
         [TestMethod] //attribute for each method
         public void FileNameDoesExist()
