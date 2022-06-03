@@ -24,37 +24,52 @@ namespace MyClassesTest
             //TODO: Cleanup after all tests in class
         }
 
+        [TestInitialize]
+        public void TestInitialize()
+        {
+            TestContext.WriteLine("In TestInitialize() method");
+
+            if (TestContext.TestName.StartsWith("FileNameDoesExist"))
+            {
+                SetGoodFileName();
+                if (!string.IsNullOrEmpty(_GoodFileName))
+                {
+                    TestContext.WriteLine("Creating file " + _GoodFileName);
+                    //Create the 'Good' file.
+                    File.AppendAllText(_GoodFileName, "Some Text");
+                }
+            }
+        }
+        [TestCleanup]
+        public void TestCleanup()
+        {
+            TestContext.WriteLine("In TestCleanup() method");
+
+            if (TestContext.TestName.StartsWith("FileNameDoesExist"))
+            {
+                //Delete file
+                if (File.Exists(_GoodFileName))
+                {
+                    TestContext.WriteLine("Deleting file " + _GoodFileName);
+                    File.Delete(_GoodFileName);
+                }
+
+            }
+        }
+
         [TestMethod] //attribute for each method
         public void FileNameDoesExist()
         {
             //Arrange  (declare all variables at top of method)
-         
             FileProcess fp = new FileProcess();
             bool fromCall;
 
-            SetGoodFileName();
-
-             //Check to make sure file name is not null or empty
-            if (!string.IsNullOrEmpty(_GoodFileName))
-            {
-                //Creating the 'Good' file
-                File.AppendAllText(_GoodFileName, "Some Text");
-            }
-
-            TestContext.WriteLine("Checking File" + _GoodFileName);
+            //Act
+            TestContext.WriteLine("Checking File " + _GoodFileName);
              
             fromCall = fp.FileExists(_GoodFileName);
 
-            //Delete file
-            if (File.Exists(_GoodFileName))
-            {
-                File.Delete(_GoodFileName);
-            }
-
-            //Act
-
             //Assert
-
             Assert.IsTrue(fromCall);
             
             //placeholder to run tests before 
@@ -109,5 +124,7 @@ namespace MyClassesTest
             //Fail the test
             Assert.Fail("Call to FileExists() did NOT throw an ArgumentNullException.");
         }
+
+
     }
 }
