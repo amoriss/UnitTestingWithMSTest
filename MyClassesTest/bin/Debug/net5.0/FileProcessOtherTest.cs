@@ -57,6 +57,15 @@ namespace MyClassesTest
         }
 
         [TestMethod]
+        public void AreSameTest()
+        {
+            FileProcess x = new FileProcess();
+            FileProcess y = new FileProcess();
+
+            Assert.AreNotSame(x, y);
+        }
+
+        [TestMethod]
         public void AreNotEqualTest()
         {
             string str1 = "Paul";
