@@ -6,7 +6,7 @@ using MyClasses;
 namespace MyClassesTest
 {
     [TestClass]
-    class FileProcessOtherTest : TestBase
+    public class FileProcessOtherTest : TestBase
     {
         [ClassInitialize()]
         public static void ClassInitialize(TestContext tc)
@@ -57,12 +57,21 @@ namespace MyClassesTest
         }
 
         [TestMethod]
+        public void AreNotEqualTest()
+        {
+            string str1 = "Paul";
+            string str2 = "John";
+
+            Assert.AreNotEqual(str1, str2, true);
+        }
+
+        [TestMethod]
         public void AreEqualTest()
         {
             string str1 = "Paul";
             string str2 = "paul";
 
-            Assert.AreEqual(str1, str2);
+            Assert.AreEqual(str1, str2, true);
         }
 
         [TestMethod]
