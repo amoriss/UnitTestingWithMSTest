@@ -180,6 +180,15 @@ namespace MyClassesTest
             Assert.Fail("Call to FileExists() did NOT throw an ArgumentNullException.");
         }
 
+        [TestMethod]
+        public void FileNameDoesExistSimpleMessage()
+        {
+            FileProcess fp = new FileProcess();
+            bool fromCall;
 
+            fromCall = fp.FileExists(_GoodFileName);
+
+            Assert.IsFalse(fromCall, "File {0} Does Not Exist.", _GoodFileName);
+        }
     }
 }
