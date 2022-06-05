@@ -29,6 +29,8 @@ namespace MyClassesTest
         {
             TestContext.WriteLine("In TestInitialize() method");
 
+
+            WriteDescription(this.GetType());
             if (TestContext.TestName.StartsWith("FileNameDoesExist"))
             {
                 SetGoodFileName();
@@ -58,6 +60,7 @@ namespace MyClassesTest
         }
 
         [TestMethod] //attribute for each method
+        [Description("Check to see if a file exists.")]
         public void FileNameDoesExist()
         {
             //Arrange  (declare all variables at top of method)
@@ -76,6 +79,7 @@ namespace MyClassesTest
             // Assert.Inconclusive();
         }
         [TestMethod]
+        [Description("Check to see if a file does not exist.")]
         public void FileNameDoesNotExist()
         {
             //Arrange  (declare all variables at top of method)
@@ -96,6 +100,7 @@ namespace MyClassesTest
         }
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
+        [Description("Check for a thrown ArgumentNullException using ExpectedException.")]
         public void FileNameNullorEmpty_UsingAttribute()
         {
             FileProcess fp = new FileProcess();
@@ -106,6 +111,7 @@ namespace MyClassesTest
         }
 
         [TestMethod]
+        [Description("Check for a thrown ArgumentNullException using try...catch.")]
         public void FileNameNullorEmpty_UsingTryCatch()
         {
             FileProcess fp = new FileProcess();
