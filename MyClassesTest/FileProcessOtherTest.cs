@@ -56,6 +56,14 @@ namespace MyClassesTest
             }
         }
 
+        [TestMethod]
+        public void AreEqualTest()
+        {
+            string str1 = "Paul";
+            string str2 = "paul";
+
+            Assert.AreEqual(str1, str2);
+        }
 
         [TestMethod]
         public void FileNameDoesExistSimpleMessage()

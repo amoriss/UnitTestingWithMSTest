@@ -190,5 +190,23 @@ namespace MyClassesTest
 
             Assert.IsFalse(fromCall, "File {0} Does Not Exist.", _GoodFileName);
         }
+
+        [TestMethod]
+        public void AreEqualTest()
+        {
+            string str1 = "Paul";
+            string str2 = "paul";
+
+            Assert.AreEqual(str1, str2, true);
+        }
+        [TestMethod]
+        public void AreNotEqualTest()
+        {
+            string str1 = "Paul";
+            string str2 = "John";
+
+            Assert.AreNotEqual(str1, str2, true);
+        }
+
     }
 }
