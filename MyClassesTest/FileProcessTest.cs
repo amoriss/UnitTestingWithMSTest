@@ -64,6 +64,7 @@ namespace MyClassesTest
         [Owner("PaulS")]
         [Priority(1)]
         [TestCategory("NoException")]
+        //[Ignore]
         public void FileNameDoesExist()
         {
             //Arrange  (declare all variables at top of method)
@@ -81,6 +82,14 @@ namespace MyClassesTest
             //placeholder to run tests before 
             // Assert.Inconclusive();
         }
+
+        [TestMethod]
+        [Timeout(3000)]
+        public void SimulateTimeout()
+        {
+            System.Threading.Thread.Sleep(4000);
+        }
+
         [TestMethod]
         [Description("Check to see if a file does not exist.")]
         [Owner("PaulS")]
