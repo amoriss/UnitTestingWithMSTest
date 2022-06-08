@@ -1,6 +1,8 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Reflection;
+using System.Data;
+using System.Data.SqlClient;
 
 namespace MyClassesTest
 {
@@ -8,6 +10,7 @@ namespace MyClassesTest
     {       
         public TestContext TestContext { get; set; }
         protected string _GoodFileName;
+        public DataTable TestDataTable { get; set; }
 
         protected void WriteDescription (Type typ)
         {
