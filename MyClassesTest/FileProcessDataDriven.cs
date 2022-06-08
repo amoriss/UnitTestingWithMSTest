@@ -8,7 +8,8 @@ namespace MyClassesTest
     [TestClass]
     public class FileProcessDataDriven : TestBase
     {
-        private const string CONNECT_STRING = "Server=Localhost;Database=Sandbox;Integrated Security=Yes";
+        //(conneciton now added in MyClasses.runsettings)
+       // private const string CONNECT_STRING = "Server=Localhost;Database=Sandbox;Integrated Security=Yes";
 
         [TestMethod()]
         public void FileExistsTestFromDB()
@@ -20,16 +21,17 @@ namespace MyClassesTest
             bool expectedValue;
             bool causesException;
             string sql = "SELECT * FROM tests.FileProcessTest";
-            string conn = CONNECT_STRING;
+            string conn = TestContext.Properties["ConnectionString"].ToString(); ;
 
-            //Load data from SQL Server table 
+            // Load data from SQL Server table
             LoadDataTable(sql, conn);
 
             if (TestDataTable != null)
             {
-                //Loop through all rows in table
+                // Loop through all rows in table
                 foreach (DataRow row in TestDataTable.Rows)
                 {
+                    // Get values from data row
                     fileName = row["FileName"].ToString();
                     expectedValue = Convert.ToBoolean(row["ExpectedValue"]);
                     causesException = Convert.ToBoolean(row["CausesException"]);
@@ -44,12 +46,29 @@ namespace MyClassesTest
                         // See if a null value was expected
                         if (!causesException)
                         {
-
+                            testFailed = true;
                         }
                     }
+                    catch (Exception)
+                    {
+                        testFailed = true;
+                    }
+
+                    TestContext.WriteLine("Testing File: '{0}', Expected Value: '{1}', Actual Value: '{2}', Result: '{3}'", fileName, expectedValue, fromCall, (expectedValue == fromCall ? "Success" : "FAILED"));
+
+                    // Check assertion
+                    if (expectedValue != fromCall)
+                    {
+                        testFailed = true;
+                    }
+                }
+
+                if (testFailed)
+                {
+                    Assert.Fail("Data Driven Tests Have Failed, Check Additional Output for More Information.");
                 }
             }
-
         }
+
     }
 }

@@ -7,10 +7,41 @@ using System.Data.SqlClient;
 namespace MyClassesTest
 {
     public class TestBase
-    {       
+    {
         public TestContext TestContext { get; set; }
         protected string _GoodFileName;
         public DataTable TestDataTable { get; set; }
+
+        public DataTable LoadDataTable(string sql, string connection)
+        {
+            TestDataTable = null;
+
+            try
+            {
+                // Create a connection
+                using (SqlConnection ConnectionObject = new SqlConnection(connection))
+                {
+                    // Create command object
+                    using (SqlCommand CommandObject = new SqlCommand(sql, ConnectionObject))
+                    {
+                        // Create a SQL Data Adapter
+                        using (SqlDataAdapter da = new SqlDataAdapter(CommandObject))
+                        {
+                            // Fill DataTable using Data Adapter
+                            TestDataTable = new DataTable();
+                            da.Fill(TestDataTable);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                TestContext.WriteLine("Error in LoadDataTable() method." + Environment.NewLine + ex.ToString());
+            }
+
+            return TestDataTable;
+        }
+
 
         protected void WriteDescription (Type typ)
         {
